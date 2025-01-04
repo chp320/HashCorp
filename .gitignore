@@ -1,0 +1,8 @@
+# Vagrant 디렉토리를 제외
+Vagrant/
+
+# Vagrant 디렉토리 하위에 있는 모든 파일 및 서브 디렉토리도 제외
+Vagrant/**
+
+# 다른 설정은 유지
+
