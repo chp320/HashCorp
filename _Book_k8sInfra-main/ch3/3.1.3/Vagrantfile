@@ -48,6 +48,11 @@ Vagrant.configure("2") do |config|
       cfg.vm.network "private_network", ip: "192.168.1.10#{i}"
       cfg.vm.network "forwarded_port", guest: 22, host: "6001#{i}", auto_correct: true, id: "ssh"
       cfg.vm.synced_folder "../data", "/vagrant", disabled: true
+      # CentOS 7 이 2024.06.30 에 EOS 됨에 따라 host 정보를 찾지 못하는 오류를 보완하기 위해서
+      # 공식적인 미러 사이트 정보를 변경함: mirrorlist.centos.org -> vault.centos.org
+      # 따라서 repo 정보를 변경하기 위해 CentOS-Base.repo 와 changeRepo.sh 를 등록함
+      cfg.vm.provision "file", source: "CentOS-Base.repo", destination: "CentOS-Base.repo"
+      cfg.vm.provision "shell", path: "changeRepo.sh"
       cfg.vm.provision "shell", path: "config.sh", args: N
       cfg.vm.provision "shell", path: "install_pkg.sh", args: Ver
       cfg.vm.provision "shell", path: "work_nodes.sh"
